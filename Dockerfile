@@ -1,5 +1,5 @@
 ARG GO_IMAGE=rancher/hardened-build-base:v1.26.4b1
-ARG BCI_IMAGE=registry.suse.com/bci/bci-nano:15.7
+ARG BCI_IMAGE=registry.suse.com/bci/bci-nano:16.0
 
 # Image that provides cross compilation tooling.
 FROM --platform=$BUILDPLATFORM rancher/mirrored-tonistiigi-xx:1.6.1 AS xx
@@ -31,6 +31,5 @@ RUN if [ "$(xx-info arch)" = "amd64" ]; then \
 # CSI Liveness Probe Sidecar
 FROM ${BCI_IMAGE} AS livenessprobe
 LABEL org.opencontainers.image.description="CSI Liveness Probe Sidecar"
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /usr/local/bin/livenessprobe /livenessprobe
 ENTRYPOINT ["/livenessprobe"]
