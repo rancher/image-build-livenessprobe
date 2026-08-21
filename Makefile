@@ -48,12 +48,6 @@ push-image-livenessprobe:
 		--push \
 		.
 
-.PHONY: build-image-all
-build-image-all: build-image-livenessprobe
-
-.PHONY: push-image-all
-push-image-all: push-image-livenessprobe
-
 .PHONY: image-scan
 image-scan:
 	trivy image --severity $(SEVERITIES) --no-progress --ignore-unfixed $(REPO)/hardened-livenessprobe:$(TAG)

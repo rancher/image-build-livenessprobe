@@ -14,7 +14,7 @@ which provides the latest supported Go toolchain (FIPS/BoringCrypto-enabled on a
 ## Building locally
 
 ```sh
-make build-image-all          # build for the host architecture
+make build-image-livenessprobe # build for the host architecture
 make image-scan               # run Trivy against the built image(s)
 ```
 
