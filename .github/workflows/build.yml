@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  build-livenessprobe:
+  build:
     permissions:
       contents: read
       id-token: write
