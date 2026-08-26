@@ -45,12 +45,17 @@ jobs:
           fi
 
           removed_line="$(grep -E '^-' <<< "$changed_lines" | head -n1 || true)"
-          added_line="$(grep -E '^+' <<< "$changed_lines" | head -n1 || true)"
-          image_pattern='ARG GO_IMAGE=rancher/hardened-build-base:v[0-9]+\.[0-9]+\.[0-9]+b[0-9]+'
+          added_line="$(grep -E '^\+' <<< "$changed_lines" | head -n1 || true)"
 
-          if ! [[ "$removed_line" =~ ^-${image_pattern}$ ]] || ! [[ "$added_line" =~ ^\+${image_pattern}$ ]]; then
-            echo "Dockerfile change is not a GO_IMAGE version replacement"
-            echo "$changed_lines"
+          if ! [[ "$removed_line" =~ ^-ARG\ GO_IMAGE=rancher/hardened-build-base:v[0-9]+\.[0-9]+\.[0-9]+b[0-9]+$ ]]; then
+            echo "Removed Dockerfile line is not the expected GO_IMAGE format"
+            echo "$removed_line"
+            exit 1
+          fi
+
+          if ! [[ "$added_line" =~ ^\+ARG\ GO_IMAGE=rancher/hardened-build-base:v[0-9]+\.[0-9]+\.[0-9]+b[0-9]+$ ]]; then
+            echo "Added Dockerfile line is not the expected GO_IMAGE format"
+            echo "$added_line"
             exit 1
           fi
 
